@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    margin-top: 2rem;
+}
+
+.logo_wrapper {
+}
+
+.logo_text {
+    font-size: 1.125rem;
+}

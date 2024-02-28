@@ -1,5 +1,6 @@
 import '/styles/globals.css';
 import '/node_modules/normalize.css';
+import Header from '@/modules/header';
 import { Noto_Sans_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -15,8 +16,11 @@ const font = Noto_Sans_Mono({
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang='ru'>
-            <body className={font.className}>{children}</body>
+        <html lang='ru' className={font.className}>
+            <body>
+                <Header />
+                <main>{children}</main>
+            </body>
         </html>
     );
 }
