@@ -3,19 +3,20 @@
     padding: 4rem 0;
 }
 
-.wrapper {
-    position: relative;
-
+.content {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
+}
+
+.text_imput_wrapper {
+    position: relative;
 }
 
 .input_hidden {
     position: absolute;
     inset: 0;
-
-    transform: translateY(10rem);
+    opacity: 0;
 }
 
 .text_block {

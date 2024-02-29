@@ -9,4 +9,5 @@
 
 .logo_text {
     font-size: 1.125rem;
+    color: var(--secondary-color);
 }
