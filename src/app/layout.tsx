@@ -1,6 +1,7 @@
+import 'normalize.css';
 import '/styles/globals.css';
-import '/node_modules/normalize.css';
 import Header from '@/modules/header';
+import Footer from '@/modules/footer';
 import { Noto_Sans_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <body>
                 <Header />
                 <main>{children}</main>
+                <Footer />
             </body>
         </html>
     );
