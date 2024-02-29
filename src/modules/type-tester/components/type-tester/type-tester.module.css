@@ -1,0 +1,33 @@
+.section {
+    margin: auto 0;
+    padding: 4rem 0;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.input_hidden {
+    position: absolute;
+    inset: 0;
+
+    transform: translateY(10rem);
+}
+
+.text_block {
+    user-select: none;
+}
+
+.text_block > span {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--muted-color);
+}
+
+.text_block > span[type-test='right'] {
+    color: var(--blue);
+}
+
+.text_block > span[type-test='wrong'] {
+    color: var(--red);
+}
