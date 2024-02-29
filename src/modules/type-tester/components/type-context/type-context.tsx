@@ -2,11 +2,14 @@
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 
+type CarretPosition = HTMLInputElement['selectionStart'];
+
 type TypeContext = {
     text: string;
     input: string;
     setInput: Dispatch<SetStateAction<string>>;
-    position: number;
+    position: CarretPosition;
+    setPosition: Dispatch<SetStateAction<CarretPosition>>;
 };
 
 type TypeProviderProps = {
@@ -21,9 +24,9 @@ const TypeContext = createContext<TypeContext | null>(null);
 export function TypeContextProvider({ children }: TypeProviderProps) {
     const [text, setText] = useState(TEXT_LINE);
     const [input, setInput] = useState('');
-    const position = input.length;
+    const [position, setPosition] = useState<CarretPosition>(0);
 
-    return <TypeContext.Provider value={{ text, input, setInput, position }}>{children}</TypeContext.Provider>;
+    return <TypeContext.Provider value={{ text, input, setInput, position, setPosition }}>{children}</TypeContext.Provider>;
 }
 
 export default function useTypeContext() {

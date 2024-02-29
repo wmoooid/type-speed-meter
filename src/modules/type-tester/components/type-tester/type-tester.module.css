@@ -19,9 +19,15 @@
 }
 
 .text_block > span {
+    position: relative;
+
     font-size: 1.5rem;
     line-height: 1.5;
     color: var(--muted-color);
+}
+
+.text_block > span[type-active] {
+    border-bottom: 2px solid var(--blue);
 }
 
 .text_block > span[type-test='right'] {
