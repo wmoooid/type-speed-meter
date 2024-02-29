@@ -4,6 +4,7 @@
 }
 
 .logo_wrapper {
+    user-select: none;
 }
 
 .logo_text {
