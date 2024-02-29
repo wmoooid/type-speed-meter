@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    gap: 0.5rem;
+
+    padding: 0.35rem 0.5rem;
+
+    font-size: 0.85rem;
+    font-weight: 400;
+
+    background-color: var(--accent-background);
+    color: var(--secondary-color);
+    border-radius: 0.25rem;
+}
+
+.name {
+    color: inherit;
+}
+
+.value {
+    color: inherit;
+    font-weight: 600;
+}

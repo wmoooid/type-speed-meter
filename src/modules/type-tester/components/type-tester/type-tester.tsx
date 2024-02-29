@@ -5,6 +5,7 @@ import styles from './type-tester.module.css';
 import useTimeStore from '../../hooks/useTimeStore';
 import useTypeContext, { TypeContextProvider } from '../type-context/type-context';
 import { TestResult, typeCheck } from '../../helpers/type-check';
+import Tooltip from '@/shared/ui/tooltip/tooltip';
 
 type TypeTesterLetterProps = {
     letter: string;
@@ -38,7 +39,10 @@ function TypeTesterMain() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
 
-        if (value.length > text.length) return;
+        if (value.length > text.length) {
+            setInput(value.slice(0, text.length));
+            return;
+        }
 
         setInput(value);
         setPosition(event.target.selectionStart);
@@ -56,13 +60,19 @@ function TypeTesterMain() {
         <section className={styles.section}>
             <div className='container'>
                 <div className={styles.wrapper}>
-                    <span>{input.length > 3 ? symbolsPerMin : 0}</span>
                     <p className={styles.text_block}>
                         {text.split('').map((letter, i) => (
                             <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
                         ))}
                     </p>
-                    <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} />
+
+                    <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} autoFocus />
+
+                    <ul className={styles.tooltips_list}>
+                        <li className={styles.tooltip_item}>
+                            <Tooltip name='Скорость печати:' value={`${input.length > 6 ? symbolsPerMin : 0} с/м`} />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
