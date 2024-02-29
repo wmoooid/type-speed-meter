@@ -2,11 +2,9 @@
 
 import React from 'react';
 import styles from './type-tester.module.css';
+import useTimeStore from '../../hooks/useTimeStore';
 import useTypeContext, { TypeContextProvider } from '../type-context/type-context';
-import { TEST_RESULT_RIGHT, TEST_RESULT_WRONG } from '../../consts/consts';
-
-type TestLetter = string | undefined;
-type TestResult = typeof TEST_RESULT_RIGHT | typeof TEST_RESULT_WRONG | null;
+import { TestResult, typeCheck } from '../../helpers/type-check';
 
 type TypeTesterLetterProps = {
     letter: string;
@@ -14,20 +12,13 @@ type TypeTesterLetterProps = {
     active: boolean;
 };
 
-export default function TypeTesterWrapper() {
+function TypeTesterWrapper() {
     return (
         <TypeContextProvider>
             <TypeTesterMain />
         </TypeContextProvider>
     );
 }
-
-const typeCheck = (a: TestLetter, b: TestLetter): TestResult => {
-    if (a === undefined || b === undefined) return null;
-    if (a === b) return TEST_RESULT_RIGHT;
-    if (a !== b) return TEST_RESULT_WRONG;
-    return null;
-};
 
 const TypeTesterLetter = React.memo(({ letter, test, active }: TypeTesterLetterProps) => {
     return (
@@ -37,12 +28,22 @@ const TypeTesterLetter = React.memo(({ letter, test, active }: TypeTesterLetterP
     );
 });
 
-export function TypeTesterMain() {
+function TypeTesterMain() {
     const { text, input, setInput, position, setPosition } = useTypeContext();
+    const { getTime, clearTime } = useTimeStore();
+
+    const secondsPassed = getTime();
+    const symbolsPerMin = Math.floor((text.length / secondsPassed) * 60);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(event.target.value);
+        const { value } = event.target;
+
+        if (value.length > text.length) return;
+
+        setInput(value);
         setPosition(event.target.selectionStart);
+
+        if (value.length === 1) clearTime();
     };
 
     const handleKeyup = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -55,6 +56,7 @@ export function TypeTesterMain() {
         <section className={styles.section}>
             <div className='container'>
                 <div className={styles.wrapper}>
+                    <span>{input.length > 3 ? symbolsPerMin : 0}</span>
                     <p className={styles.text_block}>
                         {text.split('').map((letter, i) => (
                             <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
@@ -66,3 +68,5 @@ export function TypeTesterMain() {
         </section>
     );
 }
+
+export default TypeTesterWrapper;

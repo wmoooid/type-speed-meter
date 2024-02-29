@@ -2,29 +2,28 @@
 
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 
-type CarretPosition = HTMLInputElement['selectionStart'];
+type CaretPosition = HTMLInputElement['selectionStart'];
 
 type TypeContext = {
     text: string;
     input: string;
     setInput: Dispatch<SetStateAction<string>>;
-    position: CarretPosition;
-    setPosition: Dispatch<SetStateAction<CarretPosition>>;
+    position: CaretPosition;
+    setPosition: Dispatch<SetStateAction<CaretPosition>>;
 };
 
 type TypeProviderProps = {
     children: React.ReactNode;
 };
 
-const TEXT_LINE =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, reprehenderit quod, distinctio voluptatibus culpa non sit, placeat quam quisquam quos nemo temporibus aliquam dolore earum est molestiae mollitia tenetur hic!';
+const TEXT_LINE = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.';
 
 const TypeContext = createContext<TypeContext | null>(null);
 
 export function TypeContextProvider({ children }: TypeProviderProps) {
     const [text, setText] = useState(TEXT_LINE);
     const [input, setInput] = useState('');
-    const [position, setPosition] = useState<CarretPosition>(0);
+    const [position, setPosition] = useState<CaretPosition>(0);
 
     return <TypeContext.Provider value={{ text, input, setInput, position, setPosition }}>{children}</TypeContext.Provider>;
 }
