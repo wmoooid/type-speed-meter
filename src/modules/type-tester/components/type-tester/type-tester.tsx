@@ -34,7 +34,7 @@ function TypeTesterMain() {
     const { getTime, clearTime } = useTimeStore();
 
     const secondsPassed = getTime();
-    const symbolsPerMin = Math.floor((text.length / secondsPassed) * 60);
+    const symbolsPerMin = Math.floor(input.length / (secondsPassed / 60));
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -59,18 +59,19 @@ function TypeTesterMain() {
     return (
         <section className={styles.section}>
             <div className='container'>
-                <div className={styles.wrapper}>
-                    <p className={styles.text_block}>
-                        {text.split('').map((letter, i) => (
-                            <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
-                        ))}
-                    </p>
-
-                    <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} autoFocus />
+                <div className={styles.content}>
+                    <div className={styles.text_imput_wrapper}>
+                        <p className={styles.text_block}>
+                            {text.split('').map((letter, i) => (
+                                <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
+                            ))}
+                        </p>
+                        <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} autoFocus />
+                    </div>
 
                     <ul className={styles.tooltips_list}>
                         <li className={styles.tooltip_item}>
-                            <Tooltip name='Скорость печати:' value={`${input.length > 6 ? symbolsPerMin : 0} с/м`} />
+                            <Tooltip name='Скорость печати:' value={`${input.length > 3 ? symbolsPerMin : 0} с/м`} />
                         </li>
                     </ul>
                 </div>
