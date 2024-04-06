@@ -1,4 +1,3 @@
-import 'normalize.css';
 import '/styles/globals.css';
 import Header from '@/modules/header';
 import Footer from '@/modules/footer';
