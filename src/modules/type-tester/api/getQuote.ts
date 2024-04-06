@@ -17,13 +17,9 @@ interface QuoteApiResponse {
 export default async function getQuote() {
     const baseURL = 'https://api.forismatic.com/api/1.0/';
     const apiOptions: QuoteApiOptions = { method: 'getQuote', format: 'json' };
-    const fetchOptions = {
-        method: 'POST',
-        cache: 'no-store',
-    };
 
     try {
-        const res = await fetch(baseURL + '?' + new URLSearchParams(Object.entries(apiOptions)), fetchOptions);
+        const res = await fetch(baseURL + '?' + new URLSearchParams(Object.entries(apiOptions)), { method: 'POST', cache: 'no-store' });
 
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
