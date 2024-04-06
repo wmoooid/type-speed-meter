@@ -19,6 +19,7 @@ export default async function getQuote() {
     const apiOptions: QuoteApiOptions = { method: 'getQuote', format: 'json' };
     const fetchOptions = {
         method: 'POST',
+        cache: 'no-store',
     };
 
     try {
