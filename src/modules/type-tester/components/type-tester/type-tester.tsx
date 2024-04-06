@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './type-tester.module.css';
-import useTimeStore from '../../hooks/useTimeStore';
-import useTypeContext, { TypeContextProvider } from '../type-context/type-context';
-import { TestResult, typeCheck } from '../../helpers/type-check';
 import Tooltip from '@/shared/ui/tooltip/tooltip';
+import useTimeStore from '../../hooks/useTimeStore';
+import { TestResult, typeCheck } from '../../helpers/type-check';
 
 type TypeTesterLetterProps = {
     letter: string;
@@ -13,26 +12,21 @@ type TypeTesterLetterProps = {
     active: boolean;
 };
 
-function TypeTesterWrapper() {
-    return (
-        <TypeContextProvider>
-            <TypeTesterMain />
-        </TypeContextProvider>
-    );
-}
+type CaretPosition = HTMLInputElement['selectionStart'];
 
 const TypeTesterLetter = React.memo(({ letter, test, active }: TypeTesterLetterProps) => {
     return (
-        <span type-test={test} type-active={active ? '' : null}>
+        <span type-correct={test === null ? test : String(test)} type-active={active ? '' : null}>
             {letter}
         </span>
     );
 });
 
-function TypeTesterMain() {
-    const { text, input, setInput, position, setPosition } = useTypeContext();
-    const { getTime, clearTime } = useTimeStore();
+export default function TypeTester({ text }: { text: string }) {
+    const [input, setInput] = useState('');
+    const [position, setPosition] = useState<CaretPosition>(0);
 
+    const { getTime, clearTime } = useTimeStore();
     const secondsPassed = getTime();
     const symbolsPerMin = Math.floor(input.length / (secondsPassed / 60));
 
@@ -57,27 +51,21 @@ function TypeTesterMain() {
     };
 
     return (
-        <section className={styles.section}>
-            <div className='container'>
-                <div className={styles.content}>
-                    <div className={styles.text_imput_wrapper}>
-                        <p className={styles.text_block}>
-                            {text.split('').map((letter, i) => (
-                                <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
-                            ))}
-                        </p>
-                        <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} autoFocus />
-                    </div>
-
-                    <ul className={styles.tooltips_list}>
-                        <li className={styles.tooltip_item}>
-                            <Tooltip name='Скорость печати:' value={`${input.length > 3 ? symbolsPerMin : 0} с/м`} />
-                        </li>
-                    </ul>
-                </div>
+        <div className={styles.content}>
+            <div className={styles.text_imput_wrapper}>
+                <p className={styles.text_block}>
+                    {text.split('').map((letter, i) => (
+                        <TypeTesterLetter key={letter + i} letter={letter} test={typeCheck(letter, input[i])} active={position === i} />
+                    ))}
+                </p>
+                <input value={input} onChange={handleChange} onKeyUp={handleKeyup} type='text' className={styles.input_hidden} autoFocus />
             </div>
-        </section>
+
+            <ul className={styles.tooltips_list}>
+                <li className={styles.tooltip_item}>
+                    <Tooltip name='Скорость печати:' value={`${input.length > 3 ? symbolsPerMin : 0} с/м`} />
+                </li>
+            </ul>
+        </div>
     );
 }
-
-export default TypeTesterWrapper;

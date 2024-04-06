@@ -35,11 +35,11 @@
     border-bottom: 2px solid var(--blue);
 }
 
-.text_block > span[type-test='right'] {
+.text_block > span[type-correct='true'] {
     color: var(--blue);
 }
 
-.text_block > span[type-test='wrong'] {
+.text_block > span[type-correct='false'] {
     color: var(--red);
 }
 

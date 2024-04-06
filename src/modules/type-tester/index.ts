@@ -1,3 +1,3 @@
-import TypeTester from './components/type-tester/type-tester';
+import TypeTester from './components/type-tester/type-tester-wrapper';
 
 export default TypeTester;
